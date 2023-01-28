@@ -45,12 +45,12 @@ const deleteData = async function(req,res){
         .status(200)
         .send({ status: false, msg: "Course already deleted" });
     }
-    let deletedBlog = await courseModel.findOneAndUpdate(
+    let deletedCourse = await courseModel.findOneAndUpdate(
       { _id: courseId },
       { $set: { isDeleted: true }, deletedAt: new Date() },
       { new: true }
     );
-    res.status(200).send({ status: true, data: deletedBlog });
+    res.status(200).send({ status: true, data: deletedCourse });
     } catch (error) {
         res.status(500).send({status: false, message: error.message})
     }

@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 const courseModel = require("../models/course");
 const mongoose = require("mongoose");
+const course = require("../models/course");
 
-//============= *Authentication* ================
+
 
 const loginCheck = async function (req, res, next) {
   try {
@@ -29,23 +30,23 @@ const loginCheck = async function (req, res, next) {
   }
 };
 
-//============= *Authorisation* ================
+
 
 const authorise = async function (req, res, next) {
   try {
     const authorId = req.decodedToken.authorid;
-    let blogId = req.params.blogId;
+    let courseId = req.params.courseId;
     if (!mongoose.Types.ObjectId.isValid(blogId)) {
       return res
         .status(404)
         .send({ status: false, msg: "Blog Id is incorrect" });
     }
-    let blog = await blogModel.findOne({ _id: blogId });
-    console.log(blog);
-    if (!blog) {
+    let course = await blogModel.findOne({ _id: courseId });
+    
+    if (!course) {
       return res.status(404).send({ msg: "blogId does not exist" });
     }
-    let extAuthId = blog.authorId;
+    let extAuthId = course.courseId;
     if (authorId != extAuthId) {
       return res.send({
         status: false,
